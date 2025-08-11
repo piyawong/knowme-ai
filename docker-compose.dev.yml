@@ -1,0 +1,60 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: resume-chatbot-backend-dev
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - BACKEND_PORT=8000
+      - CORS_ORIGINS=["http://localhost:3000", "http://frontend:3000"]
+      - RESUME_DATA_PATH=./backend/data/resume.json
+      - DEBUG=true
+      - LOG_LEVEL=debug
+      - FRONTEND_URL=http://localhost:3000
+    volumes:
+      - ./backend:/app/backend:rw
+      - ./backend/requirements.txt:/app/backend/requirements.txt:ro
+      - ./.env:/app/.env:ro
+    networks:
+      - resume-chatbot-network
+    restart: unless-stopped
+    command:
+      [
+        "python",
+        "-m",
+        "uvicorn",
+        "backend.main:app",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "8000",
+        "--reload",
+      ]
+
+  frontend:
+    image: node:18-alpine
+    container_name: resume-chatbot-frontend-dev
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - NODE_ENV=development
+    volumes:
+      - ./frontend:/app:rw
+      - /app/node_modules
+    networks:
+      - resume-chatbot-network
+    restart: unless-stopped
+    command: sh -c "npm install && npm run dev"
+    depends_on:
+      - backend
+
+networks:
+  resume-chatbot-network:
+    driver: bridge

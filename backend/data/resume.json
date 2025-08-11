@@ -1,0 +1,144 @@
+{
+  "personal_info": {
+    "name": "Piyawong Mahattanasawat",
+    "email": "piyawongmahat@gmail.com",
+    "phone": "+61 0494398436",
+    "location": "Australia",
+    "website": "piyawong.com",
+    "github": "https://github.com/piyawong",
+    "visa": "Australian PR Holder"
+  },
+  "summary": "Australian PR holder and full-stack engineer with 2+ years' experience building scalable web and desktop apps (Django, React, Electron). Skilled in delivering real-time features, CI/CD, and cross-platform solutions. Eager to contribute to innovative teams in the Australian tech industry.",
+  "education": [
+    {
+      "institution": "Kasetsart University",
+      "degree": "Bachelor of Computer Engineering",
+      "graduation_date": "2022",
+      "relevant_coursework": [
+        "Data Structures & Algorithms",
+        "Computer Networks",
+        "Operating Systems",
+        "Software Engineering",
+        "Web Programming",
+        "Database Systems",
+        "Embedded Systems Design"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "company": "Cloudtronics",
+      "position": "Software Engineer (Django)",
+      "start_date": "2023-01",
+      "end_date": null,
+      "location": "Remote-contract",
+      "duration": "2 years 6 months",
+      "description": [
+        "Led backend development using Django, designing and maintaining robust APIs, authentication systems, and database schemas for various web applications.",
+        "Built and optimized CI/CD pipelines to automate testing, deployment, and environment provisioning, ensuring fast and reliable delivery across projects.",
+        "Occasionally contributed to front-end development (React, Next.js), depending on project scope, ensuring full-stack alignment and seamless integration.",
+        "Designed and implemented real-time features using WebSocket and async architecture for applications requiring instant updates, such as chat systems or live dashboards.",
+        "Worked closely with cross-functional teams to define system architecture, ensure scalability, and improve overall developer workflow."
+      ],
+      "technologies": [
+        "Django",
+        "React",
+        "Next.js",
+        "WebSocket",
+        "CI/CD",
+        "APIs",
+        "Authentication Systems",
+        "Database Schemas"
+      ]
+    },
+    {
+      "company": "Snocko-tech",
+      "position": "Software Developer (Electron + Next.js)",
+      "start_date": "2023-01",
+      "end_date": "2025-01",
+      "location": "Full-time",
+      "duration": "2 years 1 month",
+      "description": [
+        "Developed a cross-platform desktop chat application using Next.js and Electron, focusing on seamless performance, real-time communication, and intuitive user experience.",
+        "Implemented core features including multi-room messaging, real-time updates, and local data persistence.",
+        "Designed and built a complete CI/CD pipeline to automate build, test, and deployment processes for macOS and Windows platforms.",
+        "Integrated auto-update functionality using Electron's update system to ensure smooth delivery of new versions to end-users.",
+        "Handled code signing and certificate management for both Windows (using SignTool) and macOS (using Apple Developer ID), ensuring security and compliance with OS requirements.",
+        "Collaborated across teams to ensure development best practices, consistent versioning, and secure release management."
+      ],
+      "technologies": [
+        "Next.js",
+        "Electron",
+        "React",
+        "CI/CD",
+        "macOS",
+        "Windows",
+        "Code Signing",
+        "Auto-update System"
+      ]
+    },
+    {
+      "company": "Customix.co",
+      "position": "Junior Software Developer (Internship – React.js)",
+      "start_date": "2021-10",
+      "end_date": "2022-03",
+      "location": "Internship",
+      "duration": "6 months",
+      "description": [
+        "Contributed to the development of a WYSIWYG website builder tailored for client use, enabling non-technical users to create and customize web pages.",
+        "Focused on front-end development using React.js, building dynamic components and enhancing user interaction within the page editor.",
+        "Collaborated with senior developers to implement drag-and-drop features, real-time previews, and reusable UI components.",
+        "Gained experience in component-based architecture, responsive design, and modern front-end development workflows."
+      ],
+      "technologies": [
+        "React.js",
+        "WYSIWYG Editor",
+        "Drag-and-Drop",
+        "Component Architecture",
+        "Responsive Design"
+      ]
+    }
+  ],
+  "skills": {
+    "Languages": ["JavaScript", "TypeScript", "Python", "Java"],
+    "Frameworks & Libraries": [
+      "React.js",
+      "Next.js",
+      "Django",
+      "NestJS",
+      "React Native"
+    ],
+    "Desktop & Cross-platform": ["Electron"],
+    "AI & LLM Tools": ["LangChain", "OpenAI API"],
+    "DevOps & Tools": ["Docker", "Git", "GitHub Actions", "CI/CD"],
+    "Cloud & Backend Services": [
+      "AWS (EC2, S3)",
+      "Firebase",
+      "PostgreSQL",
+      "WebSocket"
+    ],
+    "Others": ["REST API", "WebSockets", "Responsive Design", "Agile/Scrum"]
+  },
+  "certifications": [
+    {
+      "name": "TESA TOP GUN#15",
+      "issuer": "TESA Top Gun Rally",
+      "issue_date": "2019-11",
+      "expiry_date": null,
+      "description": "A national embedded systems competition organized by TESA, where top Thai engineering students collaborate to design and present hardware-software prototypes under real-world constraints, gaining hands-on experience in system integration and teamwork."
+    },
+    {
+      "name": "ICPC (International Collegiate Programming Contest)",
+      "issuer": "International Collegiate Programming Contest",
+      "issue_date": "2019-11",
+      "expiry_date": null,
+      "url": "https://icpc.global/ICPCID/NCPH3SDRBVTN",
+      "description": "A renowned global programming contest where university teams solve complex algorithmic problems under time pressure, showcasing skills in problem-solving, coding, and algorithm design."
+    }
+  ],
+  "languages": {
+    "Thai": "Native",
+    "English": "Intermediate - B1/B2"
+  },
+  "portfolio_url": "http://piyawong.com/"
+}
