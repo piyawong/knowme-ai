@@ -1,8 +1,8 @@
 # Multi-stage build for Next.js frontend
-FROM node:18-alpine as base
+FROM node:18-alpine AS base
 
 # Install dependencies stage
-FROM base as deps
+FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
@@ -11,7 +11,7 @@ COPY frontend/package*.json ./
 RUN npm ci --only=production
 
 # Build stage
-FROM base as builder
+FROM base AS builder
 WORKDIR /app
 COPY frontend/package*.json ./
 RUN npm ci
@@ -19,60 +19,48 @@ RUN npm ci
 # Copy source code
 COPY frontend/ .
 
+# Set environment variable for production build
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_ENV=production
+
 # Build the application
 RUN npm run build
 
 # Production stage
-FROM nginx:alpine as runner
+FROM base AS runner
+WORKDIR /app
+
+# Install curl for health checks
+RUN apk add --no-cache curl
 
 # Create non-root user
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Copy built assets
-COPY --from=builder /app/out /usr/share/nginx/html
-COPY --from=builder /app/public /usr/share/nginx/html
+# Copy production dependencies
+COPY --from=deps --chown=nextjs:nodejs /app/node_modules ./node_modules
 
-# Custom nginx configuration
-COPY <<EOF /etc/nginx/conf.d/default.conf
-server {
-    listen 3000;
-    server_name localhost;
+# Copy built application
+COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
+COPY --from=builder --chown=nextjs:nodejs /app/next.config.js ./next.config.js
 
-    location / {
-        root /usr/share/nginx/html;
-        index index.html index.htm;
-        try_files \$uri \$uri/ /index.html;
-    }
+# Set environment variables
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
 
-    # API proxy to backend
-    location /api/ {
-        proxy_pass http://backend:8000/api/;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade \$http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto \$scheme;
-        proxy_cache_bypass \$http_upgrade;
-    }
-
-    # Health check
-    location /health {
-        access_log off;
-        return 200 "healthy\n";
-        add_header Content-Type text/plain;
-    }
-}
-EOF
+# Switch to non-root user
+USER nextjs
 
 # Expose port
 EXPOSE 3000
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:3000/health || exit 1
+    CMD curl -f http://localhost:3000 || exit 1
 
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Start the application
+CMD ["npm", "start"]
