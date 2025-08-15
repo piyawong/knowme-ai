@@ -8,6 +8,7 @@ import React from "react";
 import ChatInterface from "@/components/ChatInterface";
 
 export default function HomePage() {
+  console.log("envza", process.env.NEXT_PUBLIC_API_URL);
   return (
     <div className="h-screen bg-gray-50">
       <ChatInterface />

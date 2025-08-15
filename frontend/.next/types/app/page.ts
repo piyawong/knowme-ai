@@ -1,4 +1,4 @@
-// File: /app/app/page.tsx
+// File: /Users/piyawongmahattanasawat/Desktop/Self project/knowme-ai/frontend/app/page.tsx
 import * as entry from '../../../app/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

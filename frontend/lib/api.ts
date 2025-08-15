@@ -1,6 +1,6 @@
 /**
  * API client for communicating with the FastAPI backend.
- * 
+ *
  * Provides functions for chat interactions, streaming responses,
  * and session management.
  */
@@ -31,8 +31,8 @@ export interface Message {
   timestamp: Date;
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+console.log("API_BASE_URLenvza", process.env.NEXT_PUBLIC_API_URL);
 /**
  * Send a chat message and get a complete response.
  */
@@ -41,9 +41,9 @@ export async function sendChatMessage(
   sessionId?: string
 ): Promise<ChatResponse> {
   const response = await fetch(`${API_BASE_URL}/api/chat`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       message,
@@ -54,7 +54,9 @@ export async function sendChatMessage(
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.detail || `HTTP ${response.status}: ${response.statusText}`);
+    throw new Error(
+      errorData.detail || `HTTP ${response.status}: ${response.statusText}`
+    );
   }
 
   return response.json();
@@ -68,9 +70,9 @@ export async function* streamChatMessage(
   sessionId?: string
 ): AsyncIterableIterator<ChatStreamChunk> {
   const response = await fetch(`${API_BASE_URL}/api/chat/stream`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       message,
@@ -81,11 +83,13 @@ export async function* streamChatMessage(
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.detail || `HTTP ${response.status}: ${response.statusText}`);
+    throw new Error(
+      errorData.detail || `HTTP ${response.status}: ${response.statusText}`
+    );
   }
 
   if (!response.body) {
-    throw new Error('Response body is empty');
+    throw new Error("Response body is empty");
   }
 
   const reader = response.body.getReader();
@@ -94,28 +98,28 @@ export async function* streamChatMessage(
   try {
     while (true) {
       const { done, value } = await reader.read();
-      
+
       if (done) {
         break;
       }
 
       const chunk = decoder.decode(value);
-      const lines = chunk.split('\n');
+      const lines = chunk.split("\n");
 
       for (const line of lines) {
-        if (line.startsWith('data: ')) {
+        if (line.startsWith("data: ")) {
           try {
             const data = line.slice(6); // Remove 'data: ' prefix
             if (data.trim()) {
               const parsedChunk: ChatStreamChunk = JSON.parse(data);
               yield parsedChunk;
-              
+
               if (parsedChunk.is_complete) {
                 return;
               }
             }
           } catch (error) {
-            console.warn('Failed to parse SSE chunk:', error);
+            console.warn("Failed to parse SSE chunk:", error);
           }
         }
       }
@@ -137,16 +141,21 @@ export async function getChatHistory(sessionId: string): Promise<{
   }>;
   total_messages: number;
 }> {
-  const response = await fetch(`${API_BASE_URL}/api/chat/history/${sessionId}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
+  const response = await fetch(
+    `${API_BASE_URL}/api/chat/history/${sessionId}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.detail || `HTTP ${response.status}: ${response.statusText}`);
+    throw new Error(
+      errorData.detail || `HTTP ${response.status}: ${response.statusText}`
+    );
   }
 
   return response.json();
@@ -159,16 +168,21 @@ export async function clearChatHistory(sessionId: string): Promise<{
   message: string;
   session_id: string;
 }> {
-  const response = await fetch(`${API_BASE_URL}/api/chat/history/${sessionId}`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
+  const response = await fetch(
+    `${API_BASE_URL}/api/chat/history/${sessionId}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.detail || `HTTP ${response.status}: ${response.statusText}`);
+    throw new Error(
+      errorData.detail || `HTTP ${response.status}: ${response.statusText}`
+    );
   }
 
   return response.json();
@@ -183,9 +197,9 @@ export async function checkHealth(): Promise<{
   service: string;
 }> {
   const response = await fetch(`${API_BASE_URL}/api/health`, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   });
 
