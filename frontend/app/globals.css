@@ -4,18 +4,38 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222.2 84% 4.9%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-    --radius: 0.5rem;
+    /* Modern warm color palette with better accessibility */
+    --background: 30 20% 98%; /* Warm white background */
+    --foreground: 224 30% 12%; /* Deep blue-gray for text */
+    
+    /* Primary - Modern purple-blue gradient base */
+    --primary: 250 84% 54%; /* Vibrant purple-blue */
+    --primary-foreground: 0 0% 100%; /* White text on primary */
+    
+    /* Secondary - Warm accent colors */
+    --secondary: 15 85% 95%; /* Soft peach background */
+    --secondary-foreground: 15 85% 30%; /* Dark peach text */
+    
+    /* Muted tones for subtle elements */
+    --muted: 30 20% 94%; /* Light warm gray */
+    --muted-foreground: 224 20% 40%; /* Muted blue-gray text */
+    
+    /* UI elements */
+    --border: 30 20% 88%; /* Soft warm border */
+    --input: 30 20% 92%; /* Light warm input background */
+    --ring: 250 84% 54%; /* Focus ring matching primary */
+    --radius: 0.75rem; /* Slightly rounder corners */
+    
+    /* Additional colors for gradients and accents */
+    --gradient-start: 250 84% 54%; /* Purple-blue */
+    --gradient-end: 280 85% 65%; /* Purple-pink */
+    --success: 142 70% 45%; /* Green for success */
+    --warning: 38 92% 50%; /* Orange for warnings */
+    --error: 0 72% 51%; /* Red for errors */
+    
+    /* Chat specific colors */
+    --chat-user-bg: 250 84% 96%; /* Light purple for user messages */
+    --chat-ai-bg: 30 20% 96%; /* Light warm gray for AI messages */
   }
 }
 
@@ -61,4 +81,55 @@
 
 .animate-bounce {
   animation: bounce 1.4s infinite ease-in-out both;
+}
+
+/* Modern gradient effects */
+.gradient-primary {
+  background: linear-gradient(135deg, hsl(var(--gradient-start)) 0%, hsl(var(--gradient-end)) 100%);
+}
+
+.gradient-primary-subtle {
+  background: linear-gradient(135deg, hsl(var(--gradient-start) / 0.1) 0%, hsl(var(--gradient-end) / 0.1) 100%);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, hsl(var(--gradient-start)) 0%, hsl(var(--gradient-end)) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Smooth shadow effects */
+.shadow-soft {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+}
+
+.shadow-glow {
+  box-shadow: 0 0 20px -5px hsl(var(--primary) / 0.3);
+}
+
+/* Hover effects */
+.hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+/* Message bubble animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-out;
 }

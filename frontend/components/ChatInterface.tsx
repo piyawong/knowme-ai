@@ -155,22 +155,22 @@ export default function ChatInterface() {
   };
 
   return (
-    <div className="flex flex-col h-screen max-w-4xl mx-auto bg-white">
+    <div className="flex flex-col h-screen max-w-4xl mx-auto bg-background rounded-xl shadow-2xl overflow-hidden">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+      <div className="gradient-primary px-6 py-5 flex items-center justify-between shadow-soft">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
-            <Bot className="w-6 h-6 text-white" />
+          <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center shadow-glow">
+            <Bot className="w-7 h-7 text-white" />
           </div>
           <div>
-            <h1 className="text-xl font-semibold text-gray-900">Knowme AI</h1>
-            <p className="text-sm text-gray-600">Resume Q&A Assistant</p>
+            <h1 className="text-2xl font-bold text-white">Knowme AI</h1>
+            <p className="text-sm text-white/80">Resume Q&A Assistant</p>
           </div>
         </div>
 
         <button
           onClick={handleClearChat}
-          className="flex items-center space-x-2 px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+          className="flex items-center space-x-2 px-4 py-2 text-white/90 hover:text-white hover:bg-white/20 rounded-lg transition-all hover-lift"
           title="Clear conversation"
         >
           <RotateCcw className="w-4 h-4" />
@@ -179,18 +179,18 @@ export default function ChatInterface() {
       </div>
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
+      <div className="flex-1 overflow-y-auto px-6 py-6 space-y-4 bg-gradient-to-b from-background to-muted/30">
         {messages.map((message) => (
           <MessageBubble key={message.id} message={message} />
         ))}
 
         {/* Current streaming message */}
         {currentStreamingMessage && (
-          <div className="flex justify-start w-full mb-4">
-            <div className="bg-gray-100 border rounded-lg px-4 py-2 shadow-sm max-w-[80%]">
-              <div className="whitespace-pre-wrap break-words">
+          <div className="flex justify-start w-full mb-4 animate-slide-in">
+            <div className="bg-gradient-to-r from-muted to-muted/70 border border-border rounded-xl px-5 py-3 shadow-soft max-w-[80%]">
+              <div className="whitespace-pre-wrap break-words text-foreground">
                 {currentStreamingMessage}
-                <span className="inline-block w-2 h-4 bg-gray-400 ml-1 animate-pulse"></span>
+                <span className="inline-block w-2 h-4 bg-primary/60 ml-1 animate-pulse rounded"></span>
               </div>
             </div>
           </div>
@@ -201,14 +201,14 @@ export default function ChatInterface() {
 
         {/* Suggested questions when chat is empty */}
         {messages.length <= 1 && !isLoading && (
-          <div className="mt-8">
-            <p className="text-gray-600 text-sm mb-4">Try asking about:</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          <div className="mt-8 animate-slide-in">
+            <p className="text-muted-foreground text-sm mb-4 font-medium">Try asking about:</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {suggestedQuestions.map((question, index) => (
                 <button
                   key={index}
                   onClick={() => handleSuggestedQuestion(question)}
-                  className="text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 hover:border-gray-300 transition-colors text-sm"
+                  className="text-left p-4 border border-border rounded-xl hover:bg-muted hover:border-primary/30 transition-all text-sm hover-lift gradient-primary-subtle shadow-soft"
                 >
                   {question}
                 </button>
@@ -221,7 +221,7 @@ export default function ChatInterface() {
       </div>
 
       {/* Input Area */}
-      <div className="border-t border-gray-200 px-6 py-4">
+      <div className="border-t border-border bg-background/95 backdrop-blur-sm px-6 py-5">
         <div className="flex items-end space-x-3">
           <div className="flex-1 relative">
             <input
@@ -231,11 +231,11 @@ export default function ChatInterface() {
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Ask me about Piyawong's experience, skills, projects..."
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+              className="w-full px-5 py-3.5 bg-input border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all shadow-inner"
               disabled={isLoading}
               maxLength={500}
             />
-            <div className="absolute bottom-2 right-2 text-xs text-gray-400">
+            <div className="absolute bottom-3 right-3 text-xs text-muted-foreground">
               {input.length}/500
             </div>
           </div>
@@ -243,14 +243,14 @@ export default function ChatInterface() {
           <button
             onClick={() => handleSendMessage(input)}
             disabled={!input.trim() || isLoading}
-            className="bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
+            className="gradient-primary text-white p-3.5 rounded-xl hover:shadow-glow disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center hover-lift"
             title="Send message"
           >
             <Send className="w-5 h-5" />
           </button>
         </div>
 
-        <div className="text-xs text-gray-500 mt-2 text-center">
+        <div className="text-xs text-muted-foreground mt-3 text-center">
           This is an AI assistant representing Piyawong Mahattanasawat's resume.
           Ask questions about experience, skills, projects, or education.
         </div>
