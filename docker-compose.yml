@@ -11,7 +11,7 @@ services:
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - BACKEND_PORT=8000
-      - CORS_ORIGINS=["http://localhost:3000", "http://frontend:3000","http://207.148.121.83:3000"]
+      # - CORS_ORIGINS=["http://localhost:3000", "http://frontend:3000","http://207.148.121.83:3000"]
       - RESUME_DATA_PATH=./backend/data/resume.json
       - DEBUG=false
       - LOG_LEVEL=info
