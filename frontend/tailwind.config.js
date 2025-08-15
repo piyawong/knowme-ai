@@ -25,6 +25,13 @@ module.exports = {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
+        'gradient-start': 'hsl(var(--gradient-start))',
+        'gradient-end': 'hsl(var(--gradient-end))',
+        'chat-user-bg': 'hsl(var(--chat-user-bg))',
+        'chat-ai-bg': 'hsl(var(--chat-ai-bg))',
+        success: 'hsl(var(--success))',
+        warning: 'hsl(var(--warning))',
+        error: 'hsl(var(--error))',
       },
       borderRadius: {
         lg: 'var(--radius)',

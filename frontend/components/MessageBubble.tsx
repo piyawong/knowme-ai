@@ -15,12 +15,12 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
   const { content, isUser, timestamp } = message;
 
   return (
-    <div className={`flex w-full mb-4 ${isUser ? 'justify-end' : 'justify-start'}`}>
+    <div className={`flex w-full mb-4 animate-slide-in ${isUser ? 'justify-end' : 'justify-start'}`}>
       <div
-        className={`max-w-[80%] rounded-lg px-4 py-2 shadow-sm ${
+        className={`max-w-[80%] rounded-xl px-5 py-3 shadow-soft transition-all ${
           isUser
-            ? 'bg-blue-600 text-white ml-auto'
-            : 'bg-gray-100 text-gray-900 mr-auto border'
+            ? 'gradient-primary text-white ml-auto hover:shadow-glow'
+            : 'bg-gradient-to-r from-muted to-muted/70 text-foreground mr-auto border border-border'
         }`}
       >
         {/* Message content */}
@@ -30,8 +30,8 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
         
         {/* Timestamp */}
         <div
-          className={`text-xs mt-1 ${
-            isUser ? 'text-blue-100' : 'text-gray-500'
+          className={`text-xs mt-2 ${
+            isUser ? 'text-white/70' : 'text-muted-foreground'
           }`}
         >
           {timestamp.toLocaleTimeString([], { 
