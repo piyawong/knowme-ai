@@ -1,0 +1,85 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Knowme AI Widget Demo</title><style>body {
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+            color: #e5e7eb;
+        }
+        p {
+            line-height: 1.6;
+            margin-bottom: 16px;
+            color: #d1d5db;
+        }
+        .integration-code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .feature {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .feature h3 {
+            margin-bottom: 12px;
+            color: #f3f4f6;
+        }
+        .feature ul {
+            list-style: none;
+            padding: 0;
+        }
+        .feature li {
+            padding: 4px 0;
+            color: #d1d5db;
+            font-size: 14px;
+        }
+        .feature li:before {
+            content: "✓ ";
+            color: #10b981;
+            font-weight: bold;
+        }</style><script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script><script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script><script defer="defer" src="knowme-widget.js"></script><script defer="defer" src="embed.js"></script></head><body><div class="container"><div class="card"><h1>🤖 Knowme AI Widget</h1><p>This is a live demo of the embeddable Knowme AI chat widget. The widget appears in the bottom-right corner and provides AI-powered assistance about Piyawong Mahattanasawat's professional background.</p></div><div class="card"><h2>✨ Features</h2><div class="features"><div class="feature"><h3>Easy Integration</h3><ul><li>Single JavaScript file</li><li>No dependencies</li><li>Works on any website</li><li>Simple configuration</li></ul></div><div class="feature"><h3>Customizable</h3><ul><li>Custom colors & themes</li><li>Flexible positioning</li><li>Custom greeting messages</li><li>Responsive design</li></ul></div><div class="feature"><h3>Smart Chat</h3><ul><li>Real-time streaming</li><li>Professional Q&A</li><li>Resume expertise</li><li>Fast responses</li></ul></div></div></div><div class="card"><h2>🚀 Integration</h2><p>Add this code to any website to embed the chat widget:</p><div class="integration-code">&lt;!-- Add to HTML head --&gt; &lt;script src="https://unpkg.com/react@18/umd/react.production.min.js"&gt;&lt;/script&gt; &lt;script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"&gt;&lt;/script&gt; &lt;script src="https://your-domain.com/knowme-widget.js"&gt;&lt;/script&gt; &lt;!-- Initialize the widget --&gt; &lt;script&gt; KnowmeWidget.init({ apiBaseUrl: 'https://your-api-domain.com', theme: { primary: '#3b82f6', secondary: '#f3f4f6', background: '#ffffff', text: '#1f2937' }, position: 'bottom-right', greeting: 'Hi! Ask me about Piyawong!' }); &lt;/script&gt;</div></div><div class="card"><h2>🎨 Try It Out</h2><p>Click the chat button in the bottom-right corner to test the widget. Try asking questions like:</p><ul style="color: #d1d5db; margin-left: 20px;"><li>"Tell me about Piyawong's work experience"</li><li>"What programming languages does he know?"</li><li>"What projects has he worked on?"</li><li>"Tell me about his education background"</li></ul></div></div><script src="./knowme-widget.js"></script><script>// Initialize widget with demo config
+        KnowmeWidget.init({
+            apiBaseUrl: 'http://localhost:8000',
+            theme: {
+                primary: '#6366f1',
+                secondary: '#f1f5f9',
+                background: '#ffffff',
+                text: '#1e293b'
+            },
+            position: 'bottom-right',
+            greeting: 'Hi! I\'m Knowme AI. Ask me anything about Piyawong\'s professional background, skills, and experience!'
+        });</script></body></html>

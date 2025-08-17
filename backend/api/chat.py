@@ -83,6 +83,10 @@ async def stream_chat_endpoint(
         if not chat_message.message:
             raise HTTPException(status_code=400, detail="Message field is required")
         
+        # Log origin for CORS debugging
+        if chat_message.origin:
+            print(f"Widget request from origin: {chat_message.origin}")
+        
         # Get or create session ID
         session_id = chat_message.session_id or str(uuid.uuid4())
 

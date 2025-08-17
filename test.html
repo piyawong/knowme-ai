@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ทดสอบ Knowme AI Widget</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        color: white;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 40px;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      h1 {
+        text-align: center;
+        font-size: 2.5em;
+        margin-bottom: 30px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+      .section {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 25px;
+        margin: 20px 0;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .highlight {
+        background: rgba(255, 255, 0, 0.2);
+        padding: 15px;
+        border-radius: 8px;
+        border-left: 4px solid #ffd700;
+        margin: 15px 0;
+      }
+      .code {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 15px;
+        border-radius: 8px;
+        font-family: "Courier New", monospace;
+        overflow-x: auto;
+        margin: 15px 0;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .btn {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        padding: 10px 20px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 25px;
+        cursor: pointer;
+        margin: 5px;
+        transition: all 0.3s ease;
+      }
+      .btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateY(-2px);
+      }
+      .instructions {
+        font-size: 1.1em;
+        line-height: 1.6;
+      }
+      .arrow {
+        font-size: 2em;
+        color: #ffd700;
+        animation: bounce 2s infinite;
+      }
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-10px);
+        }
+        60% {
+          transform: translateY(-5px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🤖 ทดสอบ Knowme AI Widget</h1>
+
+      <div class="section">
+        <h2>🎯 วิธีใช้งาน</h2>
+        <div class="instructions">
+          <p>
+            <strong>1.</strong> มองหาปุ่มแชทสีน้ำเงินที่มุมขวาล่าง
+            <span class="arrow">↘️</span>
+          </p>
+          <p><strong>2.</strong> คลิกปุ่มเพื่อเปิดหน้าต่างแชท</p>
+          <p><strong>3.</strong> พิมพ์คำถามเกี่ยวกับ Piyawong ได้เลย!</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>💬 ตัวอย่างคำถามที่แนะนำ</h2>
+        <div class="highlight">
+          <p>ลองถามคำถามเหล่านี้:</p>
+          <ul>
+            <li>"เล่าเกี่ยวกับประสบการณ์การทำงานของ Piyawong"</li>
+            <li>"Piyawong รู้ภาษาโปรแกรมมิ่งอะไรบ้าง?"</li>
+            <li>"เล่าเกี่ยวกับโปรเจกต์ที่เคยทำ"</li>
+            <li>"พื้นฐานการศึกษาเป็นอย่างไร?"</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>🔧 การปรับแต่ง Widget</h2>
+        <p>ทดสอบธีมและตำแหน่งต่างๆ:</p>
+
+        <button class="btn" onclick="changeTheme('blue')">ธีมสีน้ำเงิน</button>
+        <button class="btn" onclick="changeTheme('green')">ธีมสีเขียว</button>
+        <button class="btn" onclick="changeTheme('purple')">ธีมสีม่วง</button>
+        <br /><br />
+        <button class="btn" onclick="changePosition('bottom-left')">
+          มุมซ้ายล่าง
+        </button>
+        <button class="btn" onclick="changePosition('top-right')">
+          มุมขวาบน
+        </button>
+        <button class="btn" onclick="changePosition('bottom-right')">
+          รีเซ็ต
+        </button>
+      </div>
+
+      <div class="section">
+        <h2>📝 โค้ดที่ใช้ในหน้านี้</h2>
+        <div class="code">
+          &lt;!-- Load React dependencies --&gt; &lt;script
+          src="https://unpkg.com/react@18/umd/react.production.min.js"&gt;&lt;/script&gt;
+          &lt;script
+          src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"&gt;&lt;/script&gt;
+          &lt;!-- Load Knowme Widget --&gt; &lt;script
+          src="http://localhost:3100/knowme-widget.js"&gt;&lt;/script&gt;
+          &lt;!-- Initialize Widget --&gt; &lt;script&gt; KnowmeWidget.init({
+          apiBaseUrl: 'http://localhost:8000', theme: { primary: '#3b82f6',
+          secondary: '#f1f5f9', background: '#ffffff', text: '#1e293b' },
+          position: 'bottom-right', greeting: 'สวัสดีครับ! ถามเกี่ยวกับ Piyawong
+          ได้เลยครับ!' }); &lt;/script&gt;
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>🚀 วิธีใช้ในเว็บไซต์ของคุณ</h2>
+        <p>วิธีง่ายที่สุด - แค่เพิ่มโค้ดนี้ในเว็บไซต์:</p>
+        <div class="code">
+          &lt;script src="http://localhost:3100/embed.js"
+          <!-- data-api-url="http://localhost:8000" -->
+          data-primary-color="#3b82f6" data-position="bottom-right"
+          data-greeting="สวัสดีครับ! ถามอะไรก็ได้เลยครับ!"&gt; &lt;/script&gt;
+        </div>
+      </div>
+    </div>
+
+    <!-- โหลด React และ ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+    <!-- โหลด Knowme Widget -->
+    <script src="http://localhost:3100/knowme-widget.js"></script>
+
+    <script>
+      // เริ่มต้น widget
+      KnowmeWidget.init({
+        apiBaseUrl: "http://207.148.121.83:8000",
+        theme: {
+          primary: "#3b82f6",
+          secondary: "#f1f5f9",
+          background: "#ffffff",
+          text: "#1e293b",
+        },
+        position: "bottom-right",
+        greeting:
+          "สวัสดีครับ! ผมคือ Knowme AI ถามเกี่ยวกับประวัติ ผลงาน และความสามารถของ Piyawong ได้เลยครับ!",
+      });
+
+      // ฟังก์ชันเปลี่ยนธีม
+      function changeTheme(color) {
+        const themes = {
+          blue: {
+            primary: "#3b82f6",
+            secondary: "#dbeafe",
+            background: "#ffffff",
+            text: "#1e293b",
+          },
+          green: {
+            primary: "#10b981",
+            secondary: "#d1fae5",
+            background: "#ffffff",
+            text: "#1e293b",
+          },
+          purple: {
+            primary: "#8b5cf6",
+            secondary: "#ede9fe",
+            background: "#ffffff",
+            text: "#1e293b",
+          },
+        };
+
+        KnowmeWidget.destroy();
+        KnowmeWidget.init({
+          //   apiBaseUrl: "http://localhost:8000",
+          theme: themes[color],
+          position: "bottom-right",
+          greeting: `สวัสดีครับ! ตอนนี้ใช้ธีมสี${
+            color === "blue" ? "น้ำเงิน" : color === "green" ? "เขียว" : "ม่วง"
+          }แล้วครับ!`,
+        });
+      }
+
+      // ฟังก์ชันเปลี่ยนตำแหน่ง
+      function changePosition(pos) {
+        const positionNames = {
+          "bottom-left": "มุมซ้ายล่าง",
+          "top-right": "มุมขวาบน",
+          "bottom-right": "มุมขวาล่าง",
+        };
+
+        KnowmeWidget.destroy();
+        KnowmeWidget.init({
+          //   apiBaseUrl: "http://localhost:8000",
+          theme: {
+            primary: "#3b82f6",
+            secondary: "#f1f5f9",
+            background: "#ffffff",
+            text: "#1e293b",
+          },
+          position: pos,
+          greeting: `สวัสดีครับ! ตอนนี้ผมอยู่ที่${positionNames[pos]}แล้วครับ!`,
+        });
+      }
+    </script>
+  </body>
+</html>

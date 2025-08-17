@@ -17,6 +17,9 @@ class ChatMessage(BaseModel):
     session_id: Optional[str] = Field(
         None, description="Session identifier for conversation context"
     )
+    origin: Optional[str] = Field(
+        None, description="Origin domain for CORS logging"
+    )
     timestamp: datetime = Field(
         default_factory=datetime.now, description="Message timestamp"
     )
