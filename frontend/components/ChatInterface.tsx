@@ -164,7 +164,7 @@ export default function ChatInterface() {
           </div>
           <div>
             <h1 className="text-2xl font-bold text-white">Knowme AI</h1>
-            <p className="text-sm text-white/80">Resume Q&A Assistant</p>
+            <p className="text-sm text-white/80">Resume Q&A Assistant test</p>
           </div>
         </div>
 
@@ -202,7 +202,9 @@ export default function ChatInterface() {
         {/* Suggested questions when chat is empty */}
         {messages.length <= 1 && !isLoading && (
           <div className="mt-8 animate-slide-in">
-            <p className="text-muted-foreground text-sm mb-4 font-medium">Try asking about:</p>
+            <p className="text-muted-foreground text-sm mb-4 font-medium">
+              Try asking about:
+            </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {suggestedQuestions.map((question, index) => (
                 <button
