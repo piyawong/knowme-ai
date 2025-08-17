@@ -19,6 +19,7 @@ RUN npm ci
 # Copy source code
 COPY frontend/ .
 COPY .env .env
+COPY .env .env.local
 
 # Set environment variable for production build
 ENV NEXT_TELEMETRY_DISABLED=1

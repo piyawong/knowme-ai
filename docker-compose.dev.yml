@@ -20,6 +20,7 @@ services:
       - ./backend:/app/backend:rw
       - ./backend/requirements.txt:/app/backend/requirements.txt:ro
       - ./.env:/app/.env:ro
+      - ./.env:/app/.env.local:ro
     networks:
       - resume-chatbot-network
     restart: unless-stopped
@@ -43,7 +44,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      # - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
       - NODE_ENV=development
     volumes:
       - ./frontend:/app:rw

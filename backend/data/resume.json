@@ -12,7 +12,8 @@
   "education": [
     {
       "institution": "Kasetsart University",
-      "degree": "Bachelor of Computer Engineering",
+      "degree": "Bachelor of Engineering",
+      "field": "Computer Engineering",
       "graduation_date": "2022",
       "relevant_coursework": [
         "Data Structures & Algorithms",
@@ -140,5 +141,26 @@
     "Thai": "Native",
     "English": "Intermediate - B1/B2"
   },
-  "portfolio_url": "http://piyawong.com/"
+  "portfolio_url": "http://piyawong.com/",
+  "projects": [
+    {
+      "name": "Portfolio",
+      "description": "My personal portfolio website built with Next.js and Tailwind CSS.",
+      "technologies": ["Next.js", "Tailwind CSS", "React", "TypeScript"],
+      "url": "http://piyawong.com/"
+    },
+    {
+      "name": "Knowme AI",
+      "description": "A chatbot that can answer questions about my resume.",
+      "technologies": [
+        "Next.js",
+        "Tailwind CSS",
+        "React",
+        "TypeScript",
+        "LangChain",
+        "OpenAI API"
+      ],
+      "url": "http://dev.piyawong.com/knowme-ai"
+    }
+  ]
 }
