@@ -6,6 +6,7 @@
 
 import React from 'react';
 import { Message } from '@/lib/api';
+import MarkdownMessage from './MarkdownMessage';
 
 interface MessageBubbleProps {
   message: Message;
@@ -24,9 +25,13 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
         }`}
       >
         {/* Message content */}
-        <div className="whitespace-pre-wrap break-words">
-          {content}
-        </div>
+        {isUser ? (
+          <div className="whitespace-pre-wrap break-words">
+            {content}
+          </div>
+        ) : (
+          <MarkdownMessage content={content} />
+        )}
         
         {/* Timestamp */}
         <div
