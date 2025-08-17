@@ -12,13 +12,15 @@ import { Send, RotateCcw, User, Bot } from "lucide-react";
 import { Message, streamChatMessage, clearChatHistory } from "@/lib/api";
 import MessageBubble from "./MessageBubble";
 import TypingIndicator from "./TypingIndicator";
+import MarkdownMessage from "./MarkdownMessage";
+import "@/styles/markdown.css";
 
 export default function ChatInterface() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [sessionId] = useState(
-    () => `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+    () => `session_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`
   );
   const [currentStreamingMessage, setCurrentStreamingMessage] = useState("");
 
@@ -188,10 +190,8 @@ export default function ChatInterface() {
         {currentStreamingMessage && (
           <div className="flex justify-start w-full mb-4 animate-slide-in">
             <div className="bg-gradient-to-r from-muted to-muted/70 border border-border rounded-xl px-5 py-3 shadow-soft max-w-[80%]">
-              <div className="whitespace-pre-wrap break-words text-foreground">
-                {currentStreamingMessage}
-                <span className="inline-block w-2 h-4 bg-primary/60 ml-1 animate-pulse rounded"></span>
-              </div>
+              <MarkdownMessage content={currentStreamingMessage} />
+              <span className="inline-block w-2 h-4 bg-primary/60 ml-1 animate-pulse rounded"></span>
             </div>
           </div>
         )}

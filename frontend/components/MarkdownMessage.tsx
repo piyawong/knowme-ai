@@ -33,11 +33,11 @@ export default function MarkdownMessage({ content, className = "" }: MarkdownMes
   };
 
   return (
-    <ReactMarkdown
-      className={`markdown-content prose prose-slate dark:prose-invert max-w-none ${className}`}
-      remarkPlugins={[remarkGfm, remarkBreaks]}
-      rehypePlugins={[rehypeHighlight, rehypeRaw]}
-      components={{
+    <div className={`markdown-content prose prose-slate dark:prose-invert max-w-none ${className}`}>
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm, remarkBreaks]}
+        rehypePlugins={[rehypeHighlight, rehypeRaw]}
+        components={{
         // Custom code block rendering with copy button
         pre: ({ children, ...props }) => {
           const codeElement = React.Children.toArray(children)[0] as React.ReactElement;
@@ -159,8 +159,9 @@ export default function MarkdownMessage({ content, className = "" }: MarkdownMes
           </p>
         ),
       }}
-    >
-      {content}
-    </ReactMarkdown>
+      >
+        {content}
+      </ReactMarkdown>
+    </div>
   );
 }
