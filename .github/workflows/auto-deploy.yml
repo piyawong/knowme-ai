@@ -15,5 +15,5 @@ jobs:
           username: ${{ secrets.DEPLOY_USERNAME }}
           password: ${{ secrets.DEPLOY_PASSWORD }}
           port: 22
-          script: ~/scripts/re-deploy.sh knowme-ai
+          script: ~/script/deploy.sh knowme-ai
           command_timeout: 20m
