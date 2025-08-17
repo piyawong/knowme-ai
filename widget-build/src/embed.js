@@ -55,12 +55,41 @@
     return config;
   };
 
+  // Wait for React to be fully loaded and ready
+  const waitForReact = () => {
+    return new Promise((resolve, reject) => {
+      let attempts = 0;
+      const maxAttempts = 50; // 5 seconds total
+      
+      const check = () => {
+        if (window.React && 
+            window.ReactDOM && 
+            (window.ReactDOM.createRoot || window.ReactDOM.render)) {
+          console.log('React dependencies ready');
+          resolve();
+        } else if (attempts < maxAttempts) {
+          attempts++;
+          setTimeout(check, 100);
+        } else {
+          reject(new Error('React/ReactDOM not loaded after 5 seconds'));
+        }
+      };
+      check();
+    });
+  };
+
   // Load dependencies if not already loaded
   const loadDependencies = () => {
-    return Promise.all([
-      loadScript('https://unpkg.com/react@18/umd/react.production.min.js', 'React'),
-      loadScript('https://unpkg.com/react-dom@18/umd/react-dom.production.min.js', 'ReactDOM')
-    ]);
+    const reactPromise = window.React ? 
+      Promise.resolve() : 
+      loadScript('https://unpkg.com/react@18/umd/react.production.min.js', 'React');
+    
+    const reactDOMPromise = window.ReactDOM ? 
+      Promise.resolve() : 
+      loadScript('https://unpkg.com/react-dom@18/umd/react-dom.production.min.js', 'ReactDOM');
+
+    return Promise.all([reactPromise, reactDOMPromise])
+      .then(() => waitForReact());
   };
 
   // Load script helper
@@ -74,7 +103,16 @@
 
       const script = document.createElement('script');
       script.src = src;
-      script.onload = () => resolve();
+      script.onload = () => {
+        // Add extra wait for script execution
+        setTimeout(() => {
+          if (window[globalVar]) {
+            resolve();
+          } else {
+            reject(new Error(`${globalVar} not available after loading ${src}`));
+          }
+        }, 50);
+      };
       script.onerror = () => reject(new Error(`Failed to load ${src}`));
       document.head.appendChild(script);
     });

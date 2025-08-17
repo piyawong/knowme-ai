@@ -7,6 +7,19 @@ import ReactDOM from "react-dom/client";
 import ChatWidget from "./components/ChatWidget";
 import "./styles.css";
 
+// Type definitions for React 17/18 compatibility
+interface ReactDOM17 {
+  render: (element: React.ReactElement, container: Element) => void;
+  unmountComponentAtNode: (container: Element) => boolean;
+}
+
+interface ReactDOM18 {
+  createRoot: (container: Element) => {
+    render: (element: React.ReactElement) => void;
+    unmount: () => void;
+  };
+}
+
 interface WidgetConfig {
   apiBaseUrl?: string;
   theme?: {
@@ -70,37 +83,71 @@ const KnowmeWidget = {
 
       console.log("Initializing widget with API URL:", apiBaseUrl);
 
-      // Render widget
-      widgetRoot = ReactDOM.createRoot(widgetContainer);
-      widgetRoot.render(
-        React.createElement("div", { style: { pointerEvents: "auto" } },
-          React.createElement(ChatWidget, {
-            apiBaseUrl: apiBaseUrl,
-            theme: config.theme,
-            position: config.position,
-            greeting: config.greeting,
-          })
-        )
+      // Create widget element
+      const widgetElement = React.createElement("div", 
+        { style: { pointerEvents: "auto" } },
+        React.createElement(ChatWidget, {
+          apiBaseUrl: apiBaseUrl,
+          theme: config.theme,
+          position: config.position,
+          greeting: config.greeting,
+        })
       );
+
+      // Render widget with compatibility for React 17/18
+      if ((ReactDOM as any).createRoot) {
+        // React 18
+        widgetRoot = (ReactDOM as any).createRoot(widgetContainer);
+        if (widgetRoot) {
+          widgetRoot.render(widgetElement);
+        }
+      } else {
+        // React 17 fallback
+        (ReactDOM as any).render(widgetElement, widgetContainer);
+      }
     } catch (error) {
       console.error("Failed to initialize KnowmeWidget:", error);
       // Cleanup on error
       if (widgetContainer) {
-        document.body.removeChild(widgetContainer);
+        try {
+          document.body.removeChild(widgetContainer);
+        } catch (e) {
+          console.warn("Failed to cleanup container:", e);
+        }
         widgetContainer = null;
       }
     }
   },
 
   destroy: () => {
-    if (widgetRoot) {
-      widgetRoot.unmount();
-      widgetRoot = null;
-    }
+    try {
+      if (widgetRoot && widgetRoot.unmount) {
+        // React 18
+        widgetRoot.unmount();
+        widgetRoot = null;
+      }
 
-    if (widgetContainer) {
-      document.body.removeChild(widgetContainer);
-      widgetContainer = null;
+      if (widgetContainer) {
+        // React 17 fallback - unmount manually
+        if (!widgetRoot && (ReactDOM as any).unmountComponentAtNode) {
+          (ReactDOM as any).unmountComponentAtNode(widgetContainer);
+        }
+        
+        document.body.removeChild(widgetContainer);
+        widgetContainer = null;
+      }
+    } catch (error) {
+      console.warn("Error during widget cleanup:", error);
+      // Force cleanup
+      widgetRoot = null;
+      if (widgetContainer) {
+        try {
+          document.body.removeChild(widgetContainer);
+        } catch (e) {
+          console.warn("Failed to remove container:", e);
+        }
+        widgetContainer = null;
+      }
     }
   },
 };
