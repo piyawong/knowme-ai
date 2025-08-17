@@ -164,7 +164,7 @@ export default function ChatInterface() {
           </div>
           <div>
             <h1 className="text-2xl font-bold text-white">Knowme AI</h1>
-            <p className="text-sm text-white/80">Resume Q&A Assistant test</p>
+            <p className="text-sm text-white/80">Resume Q&A Assistant</p>
           </div>
         </div>
 
