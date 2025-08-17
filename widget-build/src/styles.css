@@ -1,0 +1,42 @@
+/* Minimal global styles for the widget */
+.knowme-widget * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.knowme-widget {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #1f2937;
+}
+
+.knowme-widget button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.knowme-widget input {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Widget-specific animations */
+@keyframes knowme-widget-bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+@keyframes knowme-widget-blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
