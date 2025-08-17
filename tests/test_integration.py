@@ -259,7 +259,7 @@ class TestToolIntegration:
         # This should not raise validation errors
         resume_model = ResumeData(**mock_resume_data)
 
-        assert resume_model.personal_info.name == "Alex Johnson"
+        assert resume_model.personal_info.name == "Piyawong Mahattanasawat"
         assert len(resume_model.education) == 1
         assert len(resume_model.experience) == 1
         assert len(resume_model.skills) >= 2

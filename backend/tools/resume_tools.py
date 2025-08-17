@@ -89,7 +89,7 @@ async def get_education(query: Optional[str] = None) -> str:
     """
     resume_data = load_resume_data()
     education_list = resume_data["education"]
-
+    
     # Filter by query if provided
     if query and query.strip():
         query_lower = query.lower()
@@ -118,7 +118,7 @@ async def get_education(query: Optional[str] = None) -> str:
             edu_info.append(f"Achievements: {', '.join(edu['achievements'])}")
 
         result.append("\n".join(edu_info))
-
+    
     return "\n\n".join(result)
 
 
