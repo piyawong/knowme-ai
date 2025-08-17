@@ -4,7 +4,8 @@
   "description": "Embeddable chat widget for Knowme AI",
   "main": "dist/knowme-widget.js",
   "scripts": {
-    "build": "webpack --mode production",
+    "build": "webpack --config webpack.prod.js",
+    "build:dev": "webpack --mode development",
     "dev": "webpack serve --mode development",
     "clean": "rm -rf dist"
   },

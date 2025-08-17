@@ -27,13 +27,25 @@ module.exports = (env, argv) => {
         directory: path.join(__dirname, 'dist'),
       },
       compress: true,
-      port: 8080,
+      port: process.env.PORT || 8080,
       host: '0.0.0.0',
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
         'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization',
       },
+      client: {
+        webSocketURL: {
+          protocol: 'ws',
+          hostname: 'localhost',
+          port: 3100, // Match external port
+        },
+        overlay: {
+          errors: true,
+          warnings: false,
+        },
+      },
+      allowedHosts: 'all',
     },
     resolve: {
     extensions: ['.tsx', '.ts', '.js', '.jsx'],

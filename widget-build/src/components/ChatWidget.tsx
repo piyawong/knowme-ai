@@ -311,6 +311,7 @@ export default function ChatWidget({
             backgroundColor: theme.background,
             borderRadius: "12px",
             boxShadow: "0 8px 32px rgba(0,0,0,0.15)",
+
             border: "1px solid #e5e7eb",
             overflow: "hidden",
             transition: "height 0.3s ease",
@@ -531,7 +532,7 @@ export default function ChatWidget({
                     fontSize: "14px",
                     outline: "none",
                     backgroundColor: theme.background,
-                    color: theme.text,
+                    color: "black",
                   }}
                   disabled={isLoading}
                   maxLength={300}

@@ -91,11 +91,14 @@
     const config = getConfig();
     console.log('Initializing Knowme Widget with config:', config);
     
-    if (window.KnowmeWidget && window.KnowmeWidget.init) {
-      window.KnowmeWidget.init(config);
-    } else {
-      console.error('KnowmeWidget not found');
-    }
+    // Add delay to ensure everything is loaded
+    setTimeout(() => {
+      if (window.KnowmeWidget && window.KnowmeWidget.init) {
+        window.KnowmeWidget.init(config);
+      } else {
+        console.error('KnowmeWidget not found');
+      }
+    }, 100);
   };
 
   // Auto-initialize when DOM is ready

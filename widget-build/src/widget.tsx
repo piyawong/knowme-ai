@@ -34,45 +34,62 @@ let widgetContainer: HTMLElement | null = null;
 
 const KnowmeWidget = {
   init: (config: WidgetConfig = {}) => {
+    // Check if React and ReactDOM are available
+    if (typeof React === 'undefined' || typeof ReactDOM === 'undefined') {
+      console.error('React and ReactDOM must be loaded before initializing KnowmeWidget');
+      return;
+    }
+
     // Avoid multiple initializations
     if (widgetContainer) {
       console.warn("KnowmeWidget is already initialized");
       return;
     }
 
-    // Create container
-    widgetContainer = document.createElement("div");
-    widgetContainer.id = "knowme-widget-container";
-    widgetContainer.style.cssText = `
-      position: fixed;
-      z-index: 2147483647;
-      pointer-events: none;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    `;
+    try {
+      // Create container
+      widgetContainer = document.createElement("div");
+      widgetContainer.id = "knowme-widget-container";
+      widgetContainer.style.cssText = `
+        position: fixed;
+        z-index: 2147483647;
+        pointer-events: none;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      `;
 
-    document.body.appendChild(widgetContainer);
+      document.body.appendChild(widgetContainer);
 
-    // Get API URL from config or environment
-    const apiBaseUrl =
-      config.apiBaseUrl ||
-      process.env.NEXT_PUBLIC_API_URL ||
-      "http://localhost:8000";
+      // Get API URL from config or environment
+      const apiBaseUrl =
+        config.apiBaseUrl ||
+        process.env.NEXT_PUBLIC_API_URL ||
+        "http://localhost:8000";
 
-    // Render widget
-    widgetRoot = ReactDOM.createRoot(widgetContainer);
-    widgetRoot.render(
-      <div style={{ pointerEvents: "auto" }}>
-        <ChatWidget
-          apiBaseUrl={apiBaseUrl}
-          theme={config.theme}
-          position={config.position}
-          greeting={config.greeting}
-        />
-      </div>
-    );
+      console.log("Initializing widget with API URL:", apiBaseUrl);
+
+      // Render widget
+      widgetRoot = ReactDOM.createRoot(widgetContainer);
+      widgetRoot.render(
+        React.createElement("div", { style: { pointerEvents: "auto" } },
+          React.createElement(ChatWidget, {
+            apiBaseUrl: apiBaseUrl,
+            theme: config.theme,
+            position: config.position,
+            greeting: config.greeting,
+          })
+        )
+      );
+    } catch (error) {
+      console.error("Failed to initialize KnowmeWidget:", error);
+      // Cleanup on error
+      if (widgetContainer) {
+        document.body.removeChild(widgetContainer);
+        widgetContainer = null;
+      }
+    }
   },
 
   destroy: () => {

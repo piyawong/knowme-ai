@@ -64,6 +64,7 @@ services:
       - "3100:8080"
     environment:
       - NODE_ENV=development
+      - PORT=8080
     volumes:
       - ./widget-build:/app:rw
       - /app/node_modules

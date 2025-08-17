@@ -23,7 +23,7 @@ RUN npm ci
 # Copy source code
 COPY widget-build/ .
 
-# Build the widget
+# Build the widget for production (no dev server)
 RUN npm run build
 
 # Production stage - lightweight nginx for serving static files
