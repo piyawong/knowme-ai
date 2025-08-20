@@ -249,7 +249,7 @@ export default function ChatWidget({
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage(input);
@@ -282,53 +282,91 @@ export default function ChatWidget({
       {!isOpen && (
         <button
           onClick={toggleWidget}
+          className="knowme-widget-fab"
           style={{
-            width: "56px",
-            height: "56px",
-            borderRadius: "50%",
+            width: "60px",
+            height: "60px",
+            borderRadius: "30px",
             backgroundColor: theme.primary,
             color: "white",
             border: "none",
             cursor: "pointer",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+            boxShadow: "0 4px 20px rgba(0,0,0,0.2), 0 8px 32px rgba(0,0,0,0.1)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            transition: "transform 0.2s ease",
+            transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+            animation: "knowme-widget-slide-up 0.5s ease-out",
+            position: "relative",
+            overflow: "hidden",
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
-          onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = "scale(1.08) translateY(-2px)";
+            e.currentTarget.style.boxShadow = "0 6px 24px rgba(0,0,0,0.25), 0 12px 40px rgba(0,0,0,0.15)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = "scale(1) translateY(0)";
+            e.currentTarget.style.boxShadow = "0 4px 20px rgba(0,0,0,0.2), 0 8px 32px rgba(0,0,0,0.1)";
+          }}
         >
+          <div style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "100%",
+            height: "100%",
+            background: "radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, transparent 70%)",
+            opacity: 0,
+            transition: "opacity 0.3s ease",
+          }}
+          className="knowme-widget-fab-glow"
+          />
           <MessageCircleIcon />
+          <span style={{
+            position: "absolute",
+            width: "12px",
+            height: "12px",
+            backgroundColor: "#10b981",
+            borderRadius: "50%",
+            top: "8px",
+            right: "8px",
+            border: "2px solid white",
+            animation: "knowme-widget-pulse 2s infinite",
+          }} />
         </button>
       )}
 
       {isOpen && (
         <div
+          className="knowme-widget-container"
           style={{
-            width: "320px",
-            height: isMinimized ? "48px" : "400px",
+            width: "380px",
+            height: isMinimized ? "56px" : "520px",
             backgroundColor: theme.background,
-            borderRadius: "12px",
-            boxShadow: "0 8px 32px rgba(0,0,0,0.15)",
-
-            border: "1px solid #e5e7eb",
+            borderRadius: "16px",
+            boxShadow: "0 10px 40px rgba(0,0,0,0.2), 0 2px 8px rgba(0,0,0,0.1)",
+            border: "1px solid rgba(0,0,0,0.08)",
             overflow: "hidden",
-            transition: "height 0.3s ease",
+            transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
             display: "flex",
             flexDirection: "column",
+            animation: isMinimized ? "none" : "knowme-widget-slide-up 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
+            transformOrigin: position.includes("bottom") ? "bottom" : "top",
           }}
         >
           {/* Header */}
           <div
             style={{
-              backgroundColor: theme.primary,
+              background: `linear-gradient(135deg, ${theme.primary} 0%, ${theme.primary}dd 100%)`,
               color: "white",
-              padding: "12px",
+              padding: "14px 16px",
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              minHeight: "48px",
+              minHeight: "56px",
+              backdropFilter: "blur(10px)",
+              borderBottom: "1px solid rgba(255,255,255,0.1)",
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
@@ -522,7 +560,7 @@ export default function ChatWidget({
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  onKeyPress={handleKeyPress}
+                  onKeyDown={handleKeyDown}
                   placeholder="Type your message..."
                   style={{
                     flex: 1,
@@ -564,13 +602,77 @@ export default function ChatWidget({
 
       <style>
         {`
-          @keyframes blink {
+          @keyframes knowme-widget-blink {
             0%, 50% { opacity: 1; }
             51%, 100% { opacity: 0; }
           }
-          @keyframes bounce {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1); }
+          @keyframes knowme-widget-bounce {
+            0%, 80%, 100% { 
+              transform: translateY(0) scale(1);
+            }
+            40% { 
+              transform: translateY(-8px) scale(1.1);
+            }
+          }
+          @keyframes knowme-widget-slide-up {
+            from {
+              opacity: 0;
+              transform: translateY(20px) scale(0.95);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0) scale(1);
+            }
+          }
+          @keyframes knowme-widget-message-slide {
+            from {
+              opacity: 0;
+              transform: translateX(-10px);
+            }
+            to {
+              opacity: 1;
+              transform: translateX(0);
+            }
+          }
+          @keyframes knowme-widget-pulse {
+            0% {
+              box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            }
+            70% {
+              box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+            }
+            100% {
+              box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+            }
+          }
+          @keyframes knowme-widget-rotate {
+            from {
+              transform: rotate(0deg);
+            }
+            to {
+              transform: rotate(360deg);
+            }
+          }
+          
+          .knowme-widget-messages::-webkit-scrollbar {
+            width: 6px;
+          }
+          
+          .knowme-widget-messages::-webkit-scrollbar-track {
+            background: transparent;
+          }
+          
+          .knowme-widget-messages::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.2);
+            border-radius: 3px;
+          }
+          
+          .knowme-widget-messages::-webkit-scrollbar-thumb:hover {
+            background: rgba(0,0,0,0.3);
+          }
+          
+          .knowme-widget-fab:hover .knowme-widget-fab-glow {
+            opacity: 1 !important;
           }
         `}
       </style>
