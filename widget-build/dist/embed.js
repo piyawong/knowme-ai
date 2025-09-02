@@ -1,1 +1,224 @@
-!function(e,t){"object"==typeof exports&&"object"==typeof module?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports.KnowmeWidget=t():e.KnowmeWidget=t()}(this,()=>{return e={},function(){"use strict";const e=document.currentScript||document.querySelector('script[src*="embed.js"]')||document.querySelector("script[data-api-url]");if(!e)return void console.error("Knowme Widget embed script not found");const t=(e,t)=>new Promise((o,n)=>{if(window[t])return void o();const r=document.createElement("script");r.src=e,r.onload=()=>{setTimeout(()=>{window[t]?o():n(new Error(`${t} not available after loading ${e}`))},50)},r.onerror=()=>n(new Error(`Failed to load ${e}`)),document.head.appendChild(r)}),o=()=>{(()=>{const e=window.React?Promise.resolve():t("https://unpkg.com/react@18/umd/react.production.min.js","React"),o=window.ReactDOM?Promise.resolve():t("https://unpkg.com/react-dom@18/umd/react-dom.production.min.js","ReactDOM");return Promise.all([e,o]).then(()=>new Promise((e,t)=>{let o=0;const n=()=>{window.React&&window.ReactDOM&&(window.ReactDOM.createRoot||window.ReactDOM.render)?(console.log("React dependencies ready"),e()):o<50?(o++,setTimeout(n,100)):t(new Error("React/ReactDOM not loaded after 5 seconds"))};n()}))})().then(()=>(()=>{const o=e.src.replace("embed.js","knowme-widget.js");return t(o,"KnowmeWidget")})()).then(()=>(()=>{const t=(()=>{const t={},o=e.getAttribute("data-api-url");o&&(t.apiBaseUrl=o);const n=e.getAttribute("data-primary-color"),r=e.getAttribute("data-secondary-color"),i=e.getAttribute("data-background-color"),d=e.getAttribute("data-text-color");(n||r||i||d)&&(t.theme={},n&&(t.theme.primary=n),r&&(t.theme.secondary=r),i&&(t.theme.background=i),d&&(t.theme.text=d));const c=e.getAttribute("data-position");c&&(t.position=c);const a=e.getAttribute("data-greeting");return a&&(t.greeting=a),t})();console.log("Initializing Knowme Widget with config:",t),setTimeout(()=>{window.KnowmeWidget&&window.KnowmeWidget.init?window.KnowmeWidget.init(t):console.error("KnowmeWidget not found")},100)})()).catch(e=>{console.error("Failed to initialize Knowme Widget:",e)})};"loading"===document.readyState?document.addEventListener("DOMContentLoaded",o):o()}(),e.default;var e});
+/**
+ * Easy embed script for Knowme AI Widget
+ * Automatically initializes widget from script tag attributes
+ */
+
+(function() {
+  'use strict';
+
+  // Find the embed script tag
+  const embedScript = document.currentScript || 
+    document.querySelector('script[src*="embed.js"]') ||
+    document.querySelector('script[data-api-url]');
+
+  if (!embedScript) {
+    console.error('Knowme Widget embed script not found');
+    return;
+  }
+
+  // Get configuration from data attributes
+  const getConfig = () => {
+    const config = {};
+    
+    // API URL - optional, will use environment variable if not provided
+    const apiUrl = embedScript.getAttribute('data-api-url');
+    if (apiUrl) {
+      config.apiBaseUrl = apiUrl;
+    }
+
+    // Theme configuration
+    const primaryColor = embedScript.getAttribute('data-primary-color');
+    const secondaryColor = embedScript.getAttribute('data-secondary-color');
+    const backgroundColor = embedScript.getAttribute('data-background-color');
+    const textColor = embedScript.getAttribute('data-text-color');
+
+    if (primaryColor || secondaryColor || backgroundColor || textColor) {
+      config.theme = {};
+      if (primaryColor) config.theme.primary = primaryColor;
+      if (secondaryColor) config.theme.secondary = secondaryColor;
+      if (backgroundColor) config.theme.background = backgroundColor;
+      if (textColor) config.theme.text = textColor;
+    }
+
+    // Position
+    const position = embedScript.getAttribute('data-position');
+    if (position) {
+      config.position = position;
+    }
+
+    // Greeting message
+    const greeting = embedScript.getAttribute('data-greeting');
+    if (greeting) {
+      config.greeting = greeting;
+    }
+
+    return config;
+  };
+
+  // Wait for React to be fully loaded and ready with exponential backoff
+  const waitForReact = (maxAttempts = 100, initialDelay = 100) => {
+    return new Promise((resolve, reject) => {
+      let attempts = 0;
+      let delay = initialDelay;
+      
+      const check = () => {
+        // Check if React and ReactDOM are fully loaded
+        if (window.React && 
+            window.ReactDOM && 
+            (window.ReactDOM.createRoot || window.ReactDOM.render) &&
+            document.readyState !== 'loading') {
+          console.log('React dependencies ready');
+          resolve();
+        } else if (attempts < maxAttempts) {
+          attempts++;
+          // Exponential backoff with jitter to avoid thundering herd
+          const jitter = Math.random() * 50;
+          setTimeout(check, Math.min(delay + jitter, 1000));
+          delay = Math.min(delay * 1.1, 500); // Cap at 500ms
+        } else {
+          reject(new Error(`React/ReactDOM not loaded after ${maxAttempts * initialDelay / 1000} seconds`));
+        }
+      };
+      check();
+    });
+  };
+
+  // Load dependencies if not already loaded
+  const loadDependencies = () => {
+    const reactPromise = window.React ? 
+      Promise.resolve() : 
+      loadScript('https://unpkg.com/react@18/umd/react.production.min.js', 'React');
+    
+    const reactDOMPromise = window.ReactDOM ? 
+      Promise.resolve() : 
+      loadScript('https://unpkg.com/react-dom@18/umd/react-dom.production.min.js', 'ReactDOM');
+
+    return Promise.all([reactPromise, reactDOMPromise])
+      .then(() => waitForReact());
+  };
+
+  // Load script helper
+  const loadScript = (src, globalVar) => {
+    return new Promise((resolve, reject) => {
+      // Check if already loaded
+      if (window[globalVar]) {
+        resolve();
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = src;
+      script.onload = () => {
+        // Add extra wait for script execution
+        setTimeout(() => {
+          if (window[globalVar]) {
+            resolve();
+          } else {
+            reject(new Error(`${globalVar} not available after loading ${src}`));
+          }
+        }, 50);
+      };
+      script.onerror = () => reject(new Error(`Failed to load ${src}`));
+      document.head.appendChild(script);
+    });
+  };
+
+  // Load widget script
+  const loadWidget = () => {
+    const widgetSrc = embedScript.src.replace('embed.js', 'knowme-widget.js');
+    return loadScript(widgetSrc, 'KnowmeWidget');
+  };
+
+  // Initialize widget with retry mechanism
+  const initWidget = async (retryCount = 0, maxRetries = 3) => {
+    const config = getConfig();
+    console.log('Initializing Knowme Widget with config:', config);
+    
+    try {
+      // Wait for KnowmeWidget to be available
+      await waitForKnowmeWidget();
+      
+      if (window.KnowmeWidget && window.KnowmeWidget.init) {
+        window.KnowmeWidget.init(config);
+        console.log('Knowme Widget initialized successfully');
+      } else {
+        throw new Error('KnowmeWidget.init not found');
+      }
+    } catch (error) {
+      console.warn(`Widget initialization attempt ${retryCount + 1} failed:`, error.message);
+      
+      if (retryCount < maxRetries) {
+        const delay = Math.min(1000 * Math.pow(2, retryCount), 5000); // Exponential backoff
+        console.log(`Retrying in ${delay}ms...`);
+        setTimeout(() => initWidget(retryCount + 1, maxRetries), delay);
+      } else {
+        console.error('Failed to initialize Knowme Widget after', maxRetries + 1, 'attempts:', error);
+      }
+    }
+  };
+
+  // Wait for KnowmeWidget to be available
+  const waitForKnowmeWidget = () => {
+    return new Promise((resolve, reject) => {
+      let attempts = 0;
+      const maxAttempts = 50;
+      
+      const check = () => {
+        if (window.KnowmeWidget && typeof window.KnowmeWidget.init === 'function') {
+          resolve();
+        } else if (attempts < maxAttempts) {
+          attempts++;
+          setTimeout(check, 100);
+        } else {
+          reject(new Error('KnowmeWidget not loaded after 5 seconds'));
+        }
+      };
+      check();
+    });
+  };
+
+  // Auto-initialize when DOM is ready
+  const autoInit = () => {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', start);
+    } else {
+      start();
+    }
+  };
+
+  // Start loading process with comprehensive error handling
+  const start = async () => {
+    try {
+      console.log('Starting Knowme Widget loading process...');
+      
+      // Step 1: Load React dependencies
+      console.log('Loading React dependencies...');
+      await loadDependencies();
+      
+      // Step 2: Load widget script
+      console.log('Loading widget script...');
+      await loadWidget();
+      
+      // Step 3: Initialize widget (has its own retry logic)
+      console.log('Initializing widget...');
+      await initWidget();
+      
+    } catch (error) {
+      console.error('Failed to initialize Knowme Widget:', error);
+      
+      // Fallback: Try one more time after a longer delay
+      console.log('Attempting fallback initialization in 3 seconds...');
+      setTimeout(() => {
+        if (!window.KnowmeWidget || !window.KnowmeWidget.isInitialized) {
+          initWidget().catch(fallbackError => {
+            console.error('Fallback initialization also failed:', fallbackError);
+          });
+        }
+      }, 3000);
+    }
+  };
+
+  // Start the process
+  autoInit();
+
+})();
