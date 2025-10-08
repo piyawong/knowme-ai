@@ -79,7 +79,7 @@ const KnowmeWidget = {
       const apiBaseUrl =
         config.apiBaseUrl ||
         process.env.NEXT_PUBLIC_API_URL ||
-        "http://localhost:8000";
+        "https://dev.piyawong.com/knowme-ai-server";
 
       console.log("Initializing widget with API URL:", apiBaseUrl);
 
