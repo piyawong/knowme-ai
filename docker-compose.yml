@@ -36,7 +36,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - NEXT_PUBLIC_API_URL=http://207.148.121.83:8000
+      - NEXT_PUBLIC_API_URL=https://dev.piyawong.com/knowme-ai-server
     depends_on:
       backend:
         condition: service_healthy
