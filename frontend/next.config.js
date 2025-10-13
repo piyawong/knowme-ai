@@ -4,6 +4,7 @@ const nextConfig = {
     appDir: true,
   },
   basePath: '/knowme-ai',
+  trailingSlash: true,
   async rewrites() {
     return [
       {
