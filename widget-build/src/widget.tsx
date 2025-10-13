@@ -76,10 +76,7 @@ const KnowmeWidget = {
       document.body.appendChild(widgetContainer);
 
       // Get API URL from config or environment
-      const apiBaseUrl =
-        config.apiBaseUrl ||
-        process.env.NEXT_PUBLIC_API_URL ||
-        "https://dev.piyawong.com/knowme-ai-server";
+      const apiBaseUrl = "https://dev.piyawong.com/knowme-ai-server";
 
       console.log("Initializing widget with API URL:", apiBaseUrl);
 
